@@ -17,7 +17,7 @@ def loop_in_path(parent, fullpath):
     else:
       item = subprocess.run(["vault", "kv", "get", "-format", "json", f"{fullpath}{secret}"], text=True, capture_output=True)
       jitem = json.loads(item.stdout.strip())
-      json_parent[parent].update(jitem['data']['data'])
+      json_parent[parent].update({secret: {'data': jitem['data']['data'], 'metadata': jitem['data']['metadata']['custom_metadata']}})
 
   return json_parent
 
